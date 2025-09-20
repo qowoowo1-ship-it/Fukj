@@ -217,12 +217,6 @@
       setStatus('✅ تم التحقق بنجاح — شكراً', true);
       // success behavior: you can redirect or show modal
       setTimeout(()=> { setStatus('إعادة ضبط الحقول للاختبار...', null); clearInputs(); }, 900);
-    }
-      animateShake();
-      // clear last input for retry
-      inputs.forEach(i => i.classList.add('shake'));
-      setTimeout(()=> inputs.forEach(i => i.classList.remove('shake')), 420);
-    }
   });
 
   function animateShake(){
