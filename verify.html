@@ -217,8 +217,7 @@
       setStatus('✅ تم التحقق بنجاح — شكراً', true);
       // success behavior: you can redirect or show modal
       setTimeout(()=> { setStatus('إعادة ضبط الحقول للاختبار...', null); clearInputs(); }, 900);
-    } else {
-      setStatus('❌ الرمز غير صحيح، حاول مجدداً.', false);
+    }
       animateShake();
       // clear last input for retry
       inputs.forEach(i => i.classList.add('shake'));
